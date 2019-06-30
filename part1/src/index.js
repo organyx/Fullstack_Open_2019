@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ReactDOM from 'react-dom';
 
+// Accidentally done 1.10
 const Button = ({ stat, event }) => <button onClick={event}>{stat}</button>;
 
 const Statistic = ({ stat, value }) => {
