@@ -6,9 +6,10 @@ const Button = ({ stat, event }) => <button onClick={event}>{stat}</button>;
 
 const Statistic = ({ stat, value }) => {
   return (
-    <p>
-      {stat} {value}
-    </p>
+    <tr>
+      <td>{stat}</td>
+      <td>{value}</td>
+    </tr>
   );
 };
 
@@ -18,25 +19,32 @@ const Statistics = ({ stats }) => {
   } else {
     return (
       <div>
-        <Statistic stat={'Good'} value={stats.good} />
-        <Statistic stat={'Neutral'} value={stats.neutral} />
-        <Statistic stat={'Bad'} value={stats.bad} />
-        <Statistic
-          stat={'Total'}
-          value={stats.good + stats.neutral + stats.bad}
-        />
-        <Statistic
-          stat={'Average'}
-          value={
-            (stats.good * 1 + stats.neutral * 0 + stats.bad * -1) / stats.good +
-            stats.neutral +
-            stats.bad
-          }
-        />
-        <Statistic
-          stat={'Positive'}
-          value={(stats.good * 100) / (stats.good + stats.neutral + stats.bad)}
-        />
+        <table>
+          <tbody>
+            <Statistic stat={'Good'} value={stats.good} />
+            <Statistic stat={'Neutral'} value={stats.neutral} />
+            <Statistic stat={'Bad'} value={stats.bad} />
+            <Statistic
+              stat={'Total'}
+              value={stats.good + stats.neutral + stats.bad}
+            />
+            <Statistic
+              stat={'Average'}
+              value={
+                (stats.good * 1 + stats.neutral * 0 + stats.bad * -1) /
+                  stats.good +
+                stats.neutral +
+                stats.bad
+              }
+            />
+            <Statistic
+              stat={'Positive'}
+              value={
+                (stats.good * 100) / (stats.good + stats.neutral + stats.bad)
+              }
+            />
+          </tbody>
+        </table>
       </div>
     );
   }
