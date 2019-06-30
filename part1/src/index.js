@@ -19,7 +19,7 @@ const App = props => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(6).fill(0));
 
-  const random = Math.floor((Math.random() * anecdotes.length));
+  const random = Math.floor(Math.random() * props.anecdotes.length);
 
   const vote = selected => {
     const copy = [...votes];
@@ -27,15 +27,19 @@ const App = props => {
     setVotes(copy);
   };
 
+  // Finding the index of anecdote with the most votes
+  const mostVotedIndex = votes.indexOf(Math.max.apply(null, votes));
+  const mostVoted = props.anecdotes[mostVotedIndex];
   return (
     <div>
       <p>{props.anecdotes[selected]}</p>
       <Votes votes={votes} selected={selected} />
       <Button handleClick={() => vote(selected)} text="Vote" />
-      <Button
-        handleClick={() => setSelected(random)}
-        text="Next One"
-      />
+      <Button handleClick={() => setSelected(random)} text="Next One" />
+      <h1>Anecdote with most votes</h1>
+
+      <p>{mostVoted}</p>
+      <Votes votes={votes} selected={mostVotedIndex} />
     </div>
   );
 };
