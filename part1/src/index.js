@@ -12,29 +12,33 @@ const Statistic = ({ stat, value }) => {
 };
 
 const Statistics = ({ stats }) => {
-  return (
-    <div>
-      <Statistic stat={'Good'} value={stats.good} />
-      <Statistic stat={'Neutral'} value={stats.neutral} />
-      <Statistic stat={'Bad'} value={stats.bad} />
-      <Statistic
-        stat={'Total'}
-        value={stats.good + stats.neutral + stats.bad}
-      />
-      <Statistic
-        stat={'Average'}
-        value={
-          (stats.good * 1 + stats.neutral * 0 + stats.bad * -1) / stats.good +
-          stats.neutral +
-          stats.bad
-        }
-      />
-      <Statistic
-        stat={'Positive'}
-        value={(stats.good * 100) / (stats.good + stats.neutral + stats.bad)}
-      />
-    </div>
-  );
+  if (stats.good + stats.neutral + stats.bad === 0) {
+    return <div>No Feedback yet</div>;
+  } else {
+    return (
+      <div>
+        <Statistic stat={'Good'} value={stats.good} />
+        <Statistic stat={'Neutral'} value={stats.neutral} />
+        <Statistic stat={'Bad'} value={stats.bad} />
+        <Statistic
+          stat={'Total'}
+          value={stats.good + stats.neutral + stats.bad}
+        />
+        <Statistic
+          stat={'Average'}
+          value={
+            (stats.good * 1 + stats.neutral * 0 + stats.bad * -1) / stats.good +
+            stats.neutral +
+            stats.bad
+          }
+        />
+        <Statistic
+          stat={'Positive'}
+          value={(stats.good * 100) / (stats.good + stats.neutral + stats.bad)}
+        />
+      </div>
+    );
+  }
 };
 
 const App = () => {
