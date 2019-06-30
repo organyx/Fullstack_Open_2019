@@ -19,6 +19,8 @@ const App = props => {
   const [selected, setSelected] = useState(0);
   const [votes, setVotes] = useState(Array(6).fill(0));
 
+  const random = Math.floor((Math.random() * anecdotes.length));
+
   const vote = selected => {
     const copy = [...votes];
     copy[selected] += 1;
@@ -31,7 +33,7 @@ const App = props => {
       <Votes votes={votes} selected={selected} />
       <Button handleClick={() => vote(selected)} text="Vote" />
       <Button
-        handleClick={() => setSelected(Math.floor(Math.random() * 6))}
+        handleClick={() => setSelected(random)}
         text="Next One"
       />
     </div>
