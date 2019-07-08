@@ -23,7 +23,7 @@ const Total = props => {
     return total;
   };
   const total = countTotal(props.total);
-  return <p>Number of Exercises {total}</p>;
+  return <p>Total # of Exercises: {total}</p>;
 };
 
 const Part = props => {
