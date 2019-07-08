@@ -23,7 +23,14 @@ const Total = props => {
     return total;
   };
   const total = countTotal(props.total);
-  return <p>Total # of Exercises: {total}</p>;
+
+  const totalReduced = props.total.reduce((totalEx, part) => {
+    // console.log(totalEx, part);
+    return (totalEx + part.exercises);
+  }, 0);
+  // console.log(totalReduced);
+
+  return <p>Total # of Exercises: {totalReduced}</p>;
 };
 
 const Part = props => {
