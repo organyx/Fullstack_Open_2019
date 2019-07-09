@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import People from './People';
@@ -13,6 +14,14 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [searchFilter, setSeachFilter] = useState('');
+
+  const dbUrl = 'http://localhost:3001/persons';
+
+  useEffect(() => {
+    axios.get(dbUrl).then(res => {
+      setPersons(res.data);
+    });
+  }, []);
 
   const addName = event => {
     event.preventDefault();
