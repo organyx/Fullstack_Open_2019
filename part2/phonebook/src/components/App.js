@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import Person from './Person';
+import Filter from './Filter';
+import PersonForm from './PersonForm';
+import People from './People';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -44,32 +46,22 @@ const App = () => {
     setSeachFilter(event.target.value);
   };
 
-  const personsList = persons
-    .filter(person =>
-      person.name.toLowerCase().includes(searchFilter.toLowerCase())
-    )
-    .map(person => <Person key={person.name} person={person} />);
-
   return (
     <div>
-      <div>debug: {newName}</div>
-      Show names containing with:{' '}
-      <input value={searchFilter} onChange={handleSearchFilterChange} />
+      <Filter
+        searchFilter={searchFilter}
+        handleSearchFilterChange={handleSearchFilterChange}
+      />
       <h2>Phonebook</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number:{' '}
-          <input value={newPhoneNumber} onChange={handlePhoneNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <PersonForm
+        addName={addName}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newPhoneNumber={newPhoneNumber}
+        handlePhoneNumberChange={handlePhoneNumberChange}
+      />
       <h2>Numbers</h2>
-      <ul>{personsList}</ul>
+      <People persons={persons} searchFilter={searchFilter} />
     </div>
   );
 };
