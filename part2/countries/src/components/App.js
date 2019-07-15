@@ -24,13 +24,21 @@ const App = () => {
     setCoutryFilter(event.target.value);
   };
 
+  const handleCountrySelect = event => {
+    setCoutryFilter(event.target.value);
+  };
+
   return (
     <div>
       <Filter
         countryFilter={countryFilter}
         handleCountryFilterChange={handleCountryFilterChange}
       />
-      <Countries countries={countries} countryFilter={countryFilter} />
+      <Countries
+        countries={countries}
+        countryFilter={countryFilter}
+        buttonClickHandler={handleCountrySelect}
+      />
     </div>
   );
 };

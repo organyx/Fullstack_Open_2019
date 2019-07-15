@@ -1,8 +1,15 @@
 import React from 'react';
 
-const Country = ({ country, viewSimple }) => {
+const Country = ({ country, viewSimple, buttonClickHandler }) => {
   if (viewSimple === 'true') {
-    return <div>{country.name}</div>;
+    return (
+      <div>
+        {country.name}
+        <button value={country.name} onClick={buttonClickHandler}>
+          Details
+        </button>
+      </div>
+    );
   } else {
     const langs = country.languages.map(lang => (
       <li key={lang.name}>{lang.name}</li>
