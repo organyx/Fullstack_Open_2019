@@ -4,6 +4,8 @@ import Filter from './Filter';
 import PersonForm from './PersonForm';
 import People from './People';
 
+import phonebookService from '../services/phonebookService';
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', phoneNumber: '040-123456' },
@@ -15,12 +17,8 @@ const App = () => {
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [searchFilter, setSeachFilter] = useState('');
 
-  const dbUrl = 'http://localhost:3001/persons';
-
   useEffect(() => {
-    axios.get(dbUrl).then(res => {
-      setPersons(res.data);
-    });
+    phonebookService.getAllPeople().then(res => setPersons(res));
   }, []);
 
   const addName = event => {
@@ -32,9 +30,12 @@ const App = () => {
         phoneNumber: newPhoneNumber
       };
 
-      setPersons(persons.concat(personObject));
-      setNewName('');
-      setNewPhoneNumber('');
+      phonebookService.addPerson(personObject).then(res => {
+        setPersons(persons.concat(res));
+        setNewName('');
+        setNewPhoneNumber('');
+      });
+
       return;
     }
     window.alert(`${newName} is already added to phonebook`);
