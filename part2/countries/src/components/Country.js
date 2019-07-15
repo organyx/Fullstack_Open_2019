@@ -1,4 +1,5 @@
 import React from 'react';
+import Weather from './Weather';
 
 const Country = ({ country, viewSimple, buttonClickHandler }) => {
   if (viewSimple === 'true') {
@@ -30,6 +31,7 @@ const Country = ({ country, viewSimple, buttonClickHandler }) => {
           style={({ width: '100px' }, { height: '70px' })}
           alt="flag"
         />
+        <Weather capital={country.capital} />
       </div>
     );
   }
