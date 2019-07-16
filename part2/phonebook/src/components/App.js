@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import People from './People';
@@ -24,7 +23,10 @@ const App = () => {
   const addName = event => {
     event.preventDefault();
     console.log('Click...', event.target);
-    if (persons.filter(person => person.name === newName).length === 0) {
+    const personExists = persons.findIndex(person => person.name === newName);
+    console.log('personExists :', personExists);
+    if (personExists < 0 ? true : false) {
+      console.log('Person does not exist');
       const personObject = {
         name: newName,
         phoneNumber: newPhoneNumber
@@ -35,10 +37,32 @@ const App = () => {
         setNewName('');
         setNewPhoneNumber('');
       });
-
-      return;
+    } else {
+      // window.alert(`${newName} is already added to phonebook`);
+      if (window.confirm('Person already exists. Do you wish to update?')) {
+        console.log('Person already exists');
+        const currentPersonId = persons[personExists].id;
+        console.log(currentPersonId);
+        const personObject = {
+          name: newName,
+          phoneNumber: newPhoneNumber
+        };
+        phonebookService
+          .updatePerson(currentPersonId, personObject)
+          .then(res => {
+            console.log(res);
+            setPersons(
+              persons.map(person =>
+                person.id !== currentPersonId ? person : res
+              )
+            );
+            setNewName('');
+            setNewPhoneNumber('');
+          });
+      } else {
+        console.log('Do nothing');
+      }
     }
-    window.alert(`${newName} is already added to phonebook`);
   };
 
   const deleteNameById = person => {
@@ -53,6 +77,12 @@ const App = () => {
     } else {
       console.log('Nothing happens');
     }
+  };
+
+  const clearAllFields = () => {
+    setSeachFilter('');
+    setNewName('');
+    setNewPhoneNumber('');
   };
 
   const handleNameChange = event => {
@@ -84,6 +114,9 @@ const App = () => {
         newPhoneNumber={newPhoneNumber}
         handlePhoneNumberChange={handlePhoneNumberChange}
       />
+      <button type="submit" onClick={clearAllFields}>
+        Clear
+      </button>
       <h2>Numbers</h2>
       <People
         persons={persons}
