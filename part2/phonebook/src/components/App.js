@@ -41,6 +41,20 @@ const App = () => {
     window.alert(`${newName} is already added to phonebook`);
   };
 
+  const deleteNameById = person => {
+    console.log(person.name, person.id);
+    if (window.confirm(`Delete ${person.name}?`)) {
+      console.log('Delete this person');
+      phonebookService.deletePerson(person.id).then(res => {
+        setPersons(persons.filter(p => p.id !== person.id));
+        setNewName('');
+        setNewPhoneNumber('');
+      });
+    } else {
+      console.log('Nothing happens');
+    }
+  };
+
   const handleNameChange = event => {
     console.log('Target: ', event.target.value);
     setNewName(event.target.value);
@@ -71,7 +85,11 @@ const App = () => {
         handlePhoneNumberChange={handlePhoneNumberChange}
       />
       <h2>Numbers</h2>
-      <People persons={persons} searchFilter={searchFilter} />
+      <People
+        persons={persons}
+        searchFilter={searchFilter}
+        deleteName={deleteNameById}
+      />
     </div>
   );
 };
