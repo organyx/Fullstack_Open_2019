@@ -34,15 +34,20 @@ const App = () => {
         phoneNumber: newPhoneNumber
       };
 
-      phonebookService.addPerson(personObject).then(res => {
-        setPersons(persons.concat(res));
-        setNewName('');
-        setNewPhoneNumber('');
-        setNotificationWithTimer(
-          'success',
-          `${res.name} was successfully added`
-        );
-      });
+      phonebookService
+        .addPerson(personObject)
+        .then(res => {
+          setPersons(persons.concat(res));
+          setNewName('');
+          setNewPhoneNumber('');
+          setNotificationWithTimer(
+            'success',
+            `${res.name} was successfully added`
+          );
+        })
+        .catch(error => {
+          setNotificationWithTimer('error', 'Could not add this person');
+        });
     } else {
       // window.alert(`${newName} is already added to phonebook`);
       if (window.confirm('Person already exists. Do you wish to update?')) {
@@ -68,6 +73,10 @@ const App = () => {
               'success',
               `${res.name} was updated successfully`
             );
+          })
+          .catch(error => {
+            setNotificationWithTimer('error', 'Could not update');
+            setPersons(persons.filter(p => p.id !== currentPersonId));
           });
       } else {
         console.log('Do nothing');
@@ -91,16 +100,21 @@ const App = () => {
     if (window.confirm(`Delete ${person.name}?`)) {
       const tempName = person.name;
       console.log('Delete this person');
-      phonebookService.deletePerson(person.id).then(res => {
-        console.log(res);
-        setPersons(persons.filter(p => p.id !== person.id));
-        setNewName('');
-        setNewPhoneNumber('');
-        setNotificationWithTimer(
-          'success',
-          `${tempName} was deleted successfully`
-        );
-      });
+      phonebookService
+        .deletePerson(person.id)
+        .then(res => {
+          console.log(res);
+          setPersons(persons.filter(p => p.id !== person.id));
+          setNewName('');
+          setNewPhoneNumber('');
+          setNotificationWithTimer(
+            'success',
+            `${tempName} was deleted successfully`
+          );
+        })
+        .catch(error => {
+          setNotificationWithTimer('error', 'Could not delete');
+        });
     } else {
       console.log('Nothing happens');
     }
