@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import People from './People';
+import Notification from './Notification';
 
 import phonebookService from '../services/phonebookService';
 
@@ -15,6 +16,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [searchFilter, setSeachFilter] = useState('');
+  const [notification, setNotification] = useState([]);
 
   useEffect(() => {
     phonebookService.getAllPeople().then(res => setPersons(res));
@@ -36,6 +38,10 @@ const App = () => {
         setPersons(persons.concat(res));
         setNewName('');
         setNewPhoneNumber('');
+        setNotificationWithTimer(
+          'success',
+          `${res.name} was successfully added`
+        );
       });
     } else {
       // window.alert(`${newName} is already added to phonebook`);
@@ -58,6 +64,10 @@ const App = () => {
             );
             setNewName('');
             setNewPhoneNumber('');
+            setNotificationWithTimer(
+              'success',
+              `${res.name} was updated successfully`
+            );
           });
       } else {
         console.log('Do nothing');
@@ -65,14 +75,31 @@ const App = () => {
     }
   };
 
+  const setNotificationWithTimer = (type, message) => {
+    setNotification(setNotificatonObject(type, message));
+    setTimeout(() => {
+      setNotification(setNotificatonObject('', ''));
+    }, 5000);
+  };
+
+  const setNotificatonObject = (type, message) => {
+    return { type: type, message: message };
+  };
+
   const deleteNameById = person => {
     console.log(person.name, person.id);
     if (window.confirm(`Delete ${person.name}?`)) {
+      const tempName = person.name;
       console.log('Delete this person');
       phonebookService.deletePerson(person.id).then(res => {
+        console.log(res);
         setPersons(persons.filter(p => p.id !== person.id));
         setNewName('');
         setNewPhoneNumber('');
+        setNotificationWithTimer(
+          'success',
+          `${tempName} was deleted successfully`
+        );
       });
     } else {
       console.log('Nothing happens');
@@ -107,6 +134,10 @@ const App = () => {
         handleSearchFilterChange={handleSearchFilterChange}
       />
       <h2>Phonebook</h2>
+      <Notification
+        notificationMessage={notification.message}
+        notificationType={notification.type}
+      />
       <PersonForm
         addName={addName}
         newName={newName}
