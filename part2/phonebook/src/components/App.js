@@ -46,7 +46,9 @@ const App = () => {
           );
         })
         .catch(error => {
-          setNotificationWithTimer('error', 'Could not add this person');
+          // setNotificationWithTimer('error', 'Could not add this person');
+          console.log('error.response.data', error.response.data.error);
+          setNotificationWithTimer('error', error.response.data.error);
         });
     } else {
       // window.alert(`${newName} is already added to phonebook`);
@@ -75,7 +77,8 @@ const App = () => {
             );
           })
           .catch(error => {
-            setNotificationWithTimer('error', 'Could not update');
+            // setNotificationWithTimer('error', 'Could not update');
+            setNotificationWithTimer('error', error.response.data.error);
             setPersons(persons.filter(p => p.id !== currentPersonId));
           });
       } else {
